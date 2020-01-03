@@ -14,7 +14,7 @@ setInterval(function() {
       'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:71.0) Gecko/20100101 Firefox/71.0',
       'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
       'Accept-Language': 'ko-KR,ko;q=0.8,en-US;q=0.5,en;q=0.3',
-      'Referer': 'https://www.coupang.com/np/promotion/51122',
+      'Referer': 'https://www.coupang.com/',
       'Connection': 'keep-alive',
       'Upgrade-Insecure-Requests': '1',
       'Cache-Control': 'max-age=0',
