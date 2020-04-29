@@ -2,7 +2,7 @@ const request = require('request');
 const cheerio = require('cheerio');
 const TelegramBot = require('node-telegram-bot-api');
 
-let telegramBot = new TelegramBot('[텔레그램 봇 ID]');
+let telegramBot = new TelegramBot('[텔레그램 봇 Token]');
 
 setInterval(function() {
   let url = '[쿠팡 상품 페이지 URL]';
