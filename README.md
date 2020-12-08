@@ -5,8 +5,6 @@
 3. [텔레그램 채널 ID] 변경
 
 # Known Bug
-
-- 품절상태 확인을 할 때 out of stock로 확인하지 못하여 한번 더 확인해줘야함. 추후 개선 필요. 안그럼 스파게티됨 .prod-not-find-known__buy__button 로 추가로 확인중
 - 사전예약 시작 안했을 때를 테스트해보지 못함
 
 # Why?
