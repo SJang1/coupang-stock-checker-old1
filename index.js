@@ -2,10 +2,11 @@ const request = require('request');
 const cheerio = require('cheerio');
 const TelegramBot = require('node-telegram-bot-api');
 
-let telegramBot = new TelegramBot('TelegramBotKey Here');
+let telegramBot = new TelegramBot('BotKey'); // Input Telegram Bot Key Here
+let sendto = 'SendTo'; // Input SendTo here
 
 setInterval(function() {
-  let url = 'https://www.coupang.com/vp/products/4322481223?itemId=5033261176&vendorItemId=72343055826&isAddedCart=';
+  let url = 'https://www.coupang.com/vp/products/1555441862?vendorItemId=70651096136&isAddedCart='; // Input URL to check here
 
   const options = {
     uri: url,
@@ -28,28 +29,33 @@ setInterval(function() {
       return;
     }
   
-    var a = cheerio.load(body);
-    // console.log(body);
-  
-    // 품절인지 도착 보장인지 확인
-    var text = a('.prod-txt-onyx').text();
-    console.log(text);
+    var $ = cheerio.load(body);
+    var $prod = $('.sold-out').html(); // 일시품절 상태면 값이 있음, 판매중이거나 품절이면 값이 없음
 
-    if (text.indexOf('도착 보장') !== -1) {
-      console.log("있음");
-      var text = "재고있음";
+    if ( !$prod ) {
+      // In stock
+      console.log("stock");
+
+      var $checkifunavaliable = $('.prod-not-find-known__buy__button').text();
+      if ( !$checkifunavaliable ) {
+        // console.log("재고있음", url)
+        var text = "재고있음\n" + url;
+      } else {
+        console.log("품절");
+        // var text = "품절";
+        return;
+      }
     } else {
-      console.log("없음");
-      // var text = "로켓배송 재고없음";
-      return;
+      // Not in stock
+      console.log("notinstock");
+      // var text = "재고없음";
+      return
     }
 
     sendTelegram(text);
   });
-}, 10000);
+}, 10000); // 1000 = 1sec, 10000 = 10sec, etc..
 
 function sendTelegram(text) {
-  console.log(text);
-  
-  telegramBot.sendMessage(ChatID Here, text);
+  telegramBot.sendMessage(sendto, text);
 }
