@@ -11,6 +11,7 @@
   "dependencies": {
     "cheerio": "^1.0.0-rc.3",
     "node-telegram-bot-api": "^0.40.0",
-    "request": "^2.88.0"
+    "request": "^2.88.0",
+    "yargs": "^16.2.0"
   }
 }

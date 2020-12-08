@@ -23,7 +23,18 @@
 2. cd into it
 3. npm install
 4. Change Those Things on top
-5. node ./index.js
+5. node ./index.js [args(Required)] - see down below
+
+# CommandLine Options
+Example : 
+`node ./index.js -S 1000 -B "10000000:AAAAAAAAAAAAAAA" -M "123456789" -U https://www.coupang.com/vp/products/1469610?vendorItemId=3008356047`
+
+**-U string**     : "url" Only works with coupang - Required
+**-B string**     : "TelegramBotKey" - Write in code possible
+**-M string/int** : Send Message to this ID - Write in code Possible
+**-S int**        : How often do you want to check - Default 10000 (10sec) - Write in code Possible
+
+All Options have to be vaid to run the script.
 
 # ETC
 - 빠른 속도가 중요함에 따라 링크를 줄이지 않음 (아래 스샷대로도 할 순 있습니다 = 확인절차가 한번 더 있게됨)    
