@@ -3,7 +3,7 @@ const cheerio = require('cheerio');
 const TelegramBot = require('node-telegram-bot-api');
 
 let telegramBot = new TelegramBot('BotKey'); // Input Telegram Bot Key Here
-let sendto = 'SendTo'; // Input SendTo here
+let sendto = 'SendTo'; // Input SendTo here (like userid)
 
 setInterval(function() {
   let url = 'https://www.coupang.com/vp/products/1555441862?vendorItemId=70651096136&isAddedCart='; // Input URL to check here
@@ -30,21 +30,16 @@ setInterval(function() {
     }
     
     var $ = cheerio.load(body);
-    var $prod = $('.sold-out').html(); // 일시품절 상태면 값이 있음, 판매중이거나 품절이면 값이 없음
-    if ( !$prod ) { // 일시품절 상태가 아닌 경우 
-      var $checkifunavaliable = $('.prod-not-find-known__buy__button').text(); // 품절 상태면 값이 있음, 판매중이면 값이 없음 => $prod에서 확인하도록 변경 필요 아니면 스파게티됨
-      if ( !$checkifunavaliable ) { // 판매중인 경우 
-        console.log("재고있음");
-        var text = "재고있음\n" + url;
-      } else { // 품절 상태인 경우
-        console.log("재고없음 - 품절처리");
-        var text = "품절";
-        return; // 품절이어도 알림을 받고 싶으면 이 return;을 제거하세요
-      }
-    } else { // 일시품절 상태인 경우
-      console.log("notinstock");
-      var text = "재고없음";
-      return; // 품절이어도 알림을 받고 싶으면 이 return;을 제거하세요
+    var $prod = $('.sold-out, .prod-not-find-known__buy__button').html(); // 품절 상태면 값이 있음, 판매중이면 값이 없음
+    var $prodname = $('.prod-buy-header__title').text();  // 상품 이름 불러오기
+
+    if ( !$prod ) { // 품절 상태가 아닌 경우 (재고가 있는 경우)
+      console.log("In Stock");
+      var text = "In Stock : " + $prodname + "\n" + url;
+    } else { // 품절 상태인 경우
+      console.log("Out of Stock");
+      var text = "Out of Stock : " + $prodname;
+      return; // Delete this return; to get an message even out of stock
     }
 
     sendTelegram(text);
