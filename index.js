@@ -28,28 +28,23 @@ setInterval(function() {
       console.error(error);
       return;
     }
-  
+    
     var $ = cheerio.load(body);
     var $prod = $('.sold-out').html(); // 일시품절 상태면 값이 있음, 판매중이거나 품절이면 값이 없음
-
-    if ( !$prod ) {
-      // In stock
-      console.log("stock");
-
-      var $checkifunavaliable = $('.prod-not-find-known__buy__button').text();
-      if ( !$checkifunavaliable ) {
-        // console.log("재고있음", url)
+    if ( !$prod ) { // 일시품절 상태가 아닌 경우 
+      var $checkifunavaliable = $('.prod-not-find-known__buy__button').text(); // 품절 상태면 값이 있음, 판매중이면 값이 없음 => $prod에서 확인하도록 변경 필요 아니면 스파게티됨
+      if ( !$checkifunavaliable ) { // 판매중인 경우 
+        console.log("재고있음");
         var text = "재고있음\n" + url;
-      } else {
-        console.log("품절");
-        // var text = "품절";
+      } else { // 품절 상태인 경우
+        console.log("재고없음 - 품절처리");
+        var text = "품절";
         return;
       }
-    } else {
-      // Not in stock
+    } else { // 일시품절 상태인 경우
       console.log("notinstock");
-      // var text = "재고없음";
-      return
+      var text = "재고없음";
+      return;
     }
 
     sendTelegram(text);
@@ -59,3 +54,7 @@ setInterval(function() {
 function sendTelegram(text) {
   telegramBot.sendMessage(sendto, text);
 }
+
+
+// Todo
+// 사전예약 시작 전 작동 확인 (문제 있으면 일시품절 또는 시작 전으로 안내하도록 조치해야함)
