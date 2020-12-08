@@ -37,7 +37,6 @@ setInterval(function() {
     var $prod_option_value = $('.prod-option__selected .value').text(); // 옵션 값 불러오기
     
     if ( $prod_option_name ) {
-      Array.from($('span')); // 옵션 값 순차정렬 : I don't know why it works!
       var set_options = "\n" + $prod_option_name + " : " + $prod_option_value + "\n"; //옵션 보여주기 위한 내용
     } else {
       var set_options = "\n옵션확인실패\n";
