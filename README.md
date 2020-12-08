@@ -1,4 +1,4 @@
-# coupang-restock-checker
+# coupang-stock-checker
 
 ## Known Bug
 - 사전예약 시작 안했을 때를 테스트해보지 못함
