@@ -48,7 +48,7 @@ setInterval(function() {
   });
 }, 10000);
 
-function sendTelegram(text, url) {
+function sendTelegram(text) {
   console.log(text);
   
   telegramBot.sendMessage([ChatID Here], text);
