@@ -10,3 +10,10 @@
 # Why?
 - 쿠팡 푸쉬알림 맨날 늦어서 못믿겠고 쿠팡알림 수취거부해놨어요 >_<
 - 텔레그램 좋아용!
+
+# How To
+1. git clone
+2. cd into it
+3. npm install
+4. Change Those Things on top
+5. node ./index.js
