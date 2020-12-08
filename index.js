@@ -8,7 +8,7 @@ let sleeptime = 10000; // Run every (1000 = 1sec), (10000 = 10sec), etc..
 
 setInterval(function() {
   let url = 'https://www.coupang.com/vp/products/4322481223?vendorItemId=72343056111'; // Input URL to check here
-
+  
   const options = {
     uri: url,
     headers: {
@@ -33,13 +33,22 @@ setInterval(function() {
     var $ = cheerio.load(body);
     var $prod = $('.sold-out, .prod-not-find-known__buy__button').html(); // 품절 상태면 값이 있음, 판매중이면 값이 없음
     var $prodname = $('.prod-buy-header__title').text();  // 상품 이름 불러오기
-
+    var $prod_option_name = $('.prod-option__selected .title').text(); // 옵션 이름 불러오기
+    var $prod_option_value = $('.prod-option__selected .value').text(); // 옵션 값 불러오기
+    
+    if ( $prod_option_name ) {
+      Array.from($('span')); // 옵션 값 순차정렬 : I don't know why it works!
+      var set_options = "\n" + $prod_option_name + " : " + $prod_option_value + "\n"; //옵션 보여주기 위한 내용
+    } else {
+      var set_options = "\n옵션확인실패\n";
+    }
+    
     if ( !$prod ) { // 품절 상태가 아닌 경우 (재고가 있는 경우)
-      console.log("In Stock");
-      var text = "In Stock : " + $prodname + "\n" + url;
+      console.log("In Stock : " + $prodname + set_options);
+      var text = "In Stock : " + $prodname + set_options + url;
     } else { // 품절 상태인 경우
-      console.log("Out of Stock");
-      var text = "Out of Stock : " + $prodname;
+      console.log("Out of Stock : " + $prodname + set_options);
+      var text = "Out of Stock : " + $prodname + set_options + url;
       return; // Delete this return; to get an message even out of stock
     }
 
