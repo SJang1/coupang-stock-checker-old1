@@ -2,10 +2,10 @@ const request = require('request');
 const cheerio = require('cheerio');
 const TelegramBot = require('node-telegram-bot-api');
 
-let telegramBot = new TelegramBot('[텔레그램 봇 Token]');
+let telegramBot = new TelegramBot('TelegramBotKey');
 
 setInterval(function() {
-  let url = '[쿠팡 상품 페이지 URL]';
+  let url = 'https://www.coupang.com/vp/products/4322481223?itemId=5033261176&vendorItemId=72343055826&isAddedCart=';
 
   const options = {
     uri: url,
@@ -28,20 +28,28 @@ setInterval(function() {
       return;
     }
   
-    var $ = cheerio.load(body);
+    var a = cheerio.load(body);
+    // console.log(body);
   
-    // 품절버튼인지 구매버튼인지 확인
-    var text = $('.prod-pre-order-btn .prod-buy-btn__txt').text();
-    if ('일시품절' === text) {
+    // 품절인지 도착 보장인지 확인
+    var text = a('.prod-txt-onyx').text();
+    console.log(text);
+
+    if (text.indexOf('도착 보장') !== -1) {
+      console.log("있음");
+      var text = "재고있음";
+    } else {
+      console.log("없음");
+      // var text = "로켓배송 재고없음";
       return;
     }
 
     sendTelegram(text);
   });
-}, 1000);
+}, 10000);
 
-function sendTelegram(text) {
+function sendTelegram(text, url) {
   console.log(text);
   
-  telegramBot.sendMessage([텔레그램 채널 ID], text);
+  telegramBot.sendMessage([ChatID Here], text);
 }
