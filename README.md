@@ -1,4 +1,4 @@
-# coupang-stock-checker
+# 쿠팡 재고확인 후 텔레그램 알림 프로젝트(?)
 
 ## Known Bug
 - 사전예약 시작 안했을 때를 테스트해보지 못함
