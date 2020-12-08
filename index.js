@@ -2,7 +2,7 @@ const request = require('request');
 const cheerio = require('cheerio');
 const TelegramBot = require('node-telegram-bot-api');
 
-let telegramBot = new TelegramBot('TelegramBotKey');
+let telegramBot = new TelegramBot('TelegramBotKey Here');
 
 setInterval(function() {
   let url = 'https://www.coupang.com/vp/products/4322481223?itemId=5033261176&vendorItemId=72343055826&isAddedCart=';
@@ -51,5 +51,5 @@ setInterval(function() {
 function sendTelegram(text) {
   console.log(text);
   
-  telegramBot.sendMessage([ChatID Here], text);
+  telegramBot.sendMessage(ChatID Here, text);
 }
