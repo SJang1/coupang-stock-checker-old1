@@ -24,3 +24,7 @@
 3. npm install
 4. Change Those Things on top
 5. node ./index.js
+
+# ETC
+- 빠른 속도가 중요함에 따라 링크를 줄이지 않음 (아래 스샷대로도 할 순 있습니다)    
+![image](https://user-images.githubusercontent.com/29011440/101506798-23f62900-39b9-11eb-99b8-d5b48383cfbe.png)
