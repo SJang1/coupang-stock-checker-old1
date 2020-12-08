@@ -6,7 +6,7 @@ let telegramBot = new TelegramBot('BotKey'); // Input Telegram Bot Key Here
 let sendto = 'SendTo'; // Input SendTo here (like userid)
 
 setInterval(function() {
-  let url = 'https://www.coupang.com/vp/products/1555441862?vendorItemId=70651096136&isAddedCart='; // Input URL to check here
+  let url = 'https://www.coupang.com/vp/products/4322481223?vendorItemId=72343056111'; // Input URL to check here
 
   const options = {
     uri: url,
