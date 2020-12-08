@@ -39,12 +39,12 @@ setInterval(function() {
       } else { // 품절 상태인 경우
         console.log("재고없음 - 품절처리");
         var text = "품절";
-        return;
+        return; // 품절이어도 알림을 받고 싶으면 이 return;을 제거하세요
       }
     } else { // 일시품절 상태인 경우
       console.log("notinstock");
       var text = "재고없음";
-      return;
+      return; // 품절이어도 알림을 받고 싶으면 이 return;을 제거하세요
     }
 
     sendTelegram(text);
