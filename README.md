@@ -29,10 +29,10 @@
 Example : 
 `node ./index.js -S 1000 -B "10000000:AAAAAAAAAAAAAAA" -M "123456789" -U https://www.coupang.com/vp/products/1469610?vendorItemId=3008356047`
 
-**-U string**     : "url" Only works with coupang - Required
-**-B string**     : "TelegramBotKey" - Write in code possible
-**-M string/int** : Send Message to this ID - Write in code Possible
-**-S int**        : How often do you want to check - Default 10000 (10sec) - Write in code Possible
+**-U string**     : "url" Only works with coupang - Required    
+**-B string**     : "TelegramBotKey" - Write in code possible    
+**-M string/int** : Send Message to this ID - Write in code Possible    
+**-S int**        : How often do you want to check - Default 10000 (10sec) - Write in code Possible    
 
 All Options have to be vaid to run the script.
 
