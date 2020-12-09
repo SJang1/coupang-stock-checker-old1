@@ -188,6 +188,7 @@ var MakeOrderURL = function(productId, vendorItemId, cookies) {
     var $checkout = $checkout1.requestUrl;
     console.log($checkout)
   })
+  process.exit(); // For Safety about your account, until this is fully working great, only link once at a time and end script.
 }
 
 function sendTelegram(text) {
