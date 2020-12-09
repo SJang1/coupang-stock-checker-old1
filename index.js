@@ -9,7 +9,11 @@ const cookiefile = require('cookiefile');
 // -B string     : "TelegramBotKey" - Write in code possible
 // -M string/int : Send Message to this ID - Write in code Possible
 // -S int        : how often do you want to check - Default 10000 (10sec)
-// -C string     : Coupang cookie file Used to Login - DOES NOT WORK NOW CAUSING BY CSRF COOKIE "CPUSR_RL", "bm_sv"
+//
+// -C string     : Coupang cookie file Used to Login - Optional
+// Please Delete all lines starting with #HttpOnly_ on cookie file before start
+// Please Enter the Full Path of link, only files avaliable.
+// You can get and export to cookies.txt with Browser Extensions.
 
 // Set Optional ones Default value
 var TelegramBotKey = args.B;
@@ -73,28 +77,17 @@ setInterval(function() {
       return;
     }
 
-    // finding vendorItemId
     const current_url = new URL(args.U);
     const search_params = current_url.searchParams;
     const vendorItemId = search_params.get('vendorItemId');
-    // finding productId
+    // finding venderitemid works
+
     const itemifwparam = current_url.href.substring(current_url.href.lastIndexOf('/') + 1);
     const itemIDwq = itemifwparam.replace(search_params,'');
     const productId = itemIDwq.replace('?','');
+    // console.log(productId, vendorItemId);
     // Will use for Checkout page generating
 
-    if (!cookiefiledir) {
-      console.log("No Cookie");
-      var checkout_url = ""; //CheckOut URL
-    } else {
-      console.error("Sorry, it is NOT YET DONE WITH COOKIES :(\n If you Know how, please make a Pull Request. Thank you.");
-      process.exit();
-      // PLEASE MAKE IT Call MakeOrderURL **only 5~10 minutes at once.** - to the future
-      const cookiemap = new cookiefile.CookieMap(cookiefiledir);
-      const cookies = cookiemap.toRequestHeader().replace ('Cookie: ','');
-      MakeOrderURL(productId, vendorItemId, cookies);
-    }
-    
     
     var $ = cheerio.load(body);
     var $prod = $('.sold-out, .prod-not-find-known__buy__button').html(); // 품절 상태면 값이 있음, 판매중이면 값이 없음
@@ -104,7 +97,7 @@ setInterval(function() {
     var $aosLabel = $('.aos-label').text(); //aos-label
 
     var $thumbnail_link = $("meta[property='og:image']").attr("content"); //상품이미지 
-    var $imagelink = "https:" + $thumbnail_link; // Not in use
+    var $imagelink = "https:" + $thumbnail_link;
 
     if ( !$prodname ) {
       console.error("It may be BANNED or Wrong URL");
@@ -129,11 +122,19 @@ setInterval(function() {
 
     // 메시지 내용 확립
     if ( !$prod ) { // 품절 상태가 아닌 경우 (재고가 있는 경우)
+
+      if (!cookiefiledir) {  //  쿠키 여부에 따라 체크아웃 링크생성
+        console.log("No Cookie");
+        var checkout_url = url;
+      } else {
+        const cookiemap = new cookiefile.CookieMap(cookiefiledir);
+        const cookies = cookiemap.toRequestHeader().replace ('Cookie: ','');
+        MakeOrderURL(productId, vendorItemId, cookies);
+      }
+
       console.log("In Stock : " + $prodname + set_options);
-      // MakeOrderURL(productId, vendorItemId); - Making This Later because of log-in problem using cookies
-      // setInterval(MakeOrderURL(productId, vendorItemId), 300000);
-      // var text = "[​​​​​​​​​​​](" + url + ")" + "*👍In Stock* : " + $prodname + aosLabelText + set_options + checkout_url; - Will b done when I find a way to log in
-      var text = "*👍In Stock* : " + $prodname + aosLabelText + set_options + url;
+      var text = "[​​​​​​​​​​​](" + url + ")" + "*👍In Stock* : " + $prodname + aosLabelText + set_options + checkout_url; 
+      // var text = "*👍In Stock* : " + $prodname + aosLabelText + set_options + url;
     } else { // 품절 상태인 경우
       console.log("Out of Stock : " + $prodname + set_options);
       var text = "Out of Stock : " + $prodname + set_options + url;
@@ -144,20 +145,13 @@ setInterval(function() {
   });
 }, sleeptime);
 
-function sendTelegram(text) {
-  const opts = {
-//    reply_markup:{
-//      keyboard: [
-//        ['FAQ'],
-//        ['Buy']
-//      ]
-//    },
-    parse_mode: 'Markdown',
-    disable_web_page_preview: false
-  };
-  telegramBot.sendMessage(sendto, text, opts);
-}
 
+// Todo
+// 사전예약 시작 전 작동 확인 (문제 있으면 일시품절 또는 시작 전으로 안내하도록 조치해야함)
+
+// Todo
+// 5분에 한번씩만 아래 스크립트가 돌도록 설정
+// $checkout을 리턴하여  (리턴 전에는 위에 스크립트 일시정지) 메시지에서 바로 체크아웃할 수 있도록 해야함
 var MakeOrderURL = function(productId, vendorItemId, cookies) {
   // console.log(productId, vendorItemId + "MakeOrder");
   // console.log(cookies)
@@ -189,15 +183,23 @@ var MakeOrderURL = function(productId, vendorItemId, cookies) {
       process.exit();
     }
 
-    console.log(response); // Will make it later
-
-    var $ = cheerio.load(body);
-    var $checkout = $('.orderCheckoutUrl').text();
-    console.log($checkout);
-    var checkout_url = "\n" + $checkout; //CheckOut URL
+    var parsedjson = JSON.parse(body);
+    var $checkout1 = parsedjson.orderCheckoutUrl;
+    var $checkout = $checkout1.requestUrl;
+    console.log($checkout)
   })
 }
 
-
-// Todo
-// 사전예약 시작 전 작동 확인 (문제 있으면 일시품절 또는 시작 전으로 안내하도록 조치해야함)
+function sendTelegram(text) {
+  const opts = {
+//    reply_markup:{
+//      keyboard: [
+//        ['FAQ'],
+//        ['Buy']
+//      ]
+//    },
+    parse_mode: 'Markdown',
+    disable_web_page_preview: false
+  };
+  telegramBot.sendMessage(sendto, text, opts);
+}
