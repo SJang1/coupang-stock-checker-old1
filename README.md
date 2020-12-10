@@ -1,4 +1,5 @@
-# 쿠팡 재고확인 후 텔레그램 알림 프로젝트(?)
+# This Code is Archaived. Please check the new one.
+why? it is so spagetti
 
 ## Known Bug
 - 사전예약 시작 안했을 때를 테스트해보지 못함
